@@ -21,12 +21,12 @@ class Product with ChangeNotifier {
   }
 
   Transaction findById(String id) {
-    return _items.firstWhere((prod) => prod.id == id);
+    return _items.firstWhere((prod) => prod.id == id, orElse: () => Transaction(id: '', title: '', amount: 0, date: DateTime.now()),);
   }
 
   Future<void> addProduct(Transaction product) async {
     final link =
-        'https://class-expense-app-default-rtdb.firebaseio.com/transaction.json';
+        'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction.json';
 
     final url = Uri.parse(link);
     try {
@@ -59,7 +59,7 @@ class Product with ChangeNotifier {
     final filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
 
     final url = Uri.parse(
-      'https://class-expense-app-default-rtdb.firebaseio.com/transaction.json?$filterString',
+      'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction.json?$filterString',
     );
     try {
       final response = await http.get(url);
@@ -90,7 +90,7 @@ class Product with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-        'https://class-expense-app-default-rtdb.firebaseio.com/transaction/$id.json',
+        'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction/$id.json',
       );
       await http.patch(
         url,
@@ -109,7 +109,7 @@ class Product with ChangeNotifier {
 
   Future<void> deleteProducts(String id) async {
     final link =
-        'https://class-expense-app-default-rtdb.firebaseio.com/transaction/$id.json';
+        'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction/$id.json';
     final url = Uri.parse(link);
 
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);

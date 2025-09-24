@@ -30,7 +30,7 @@ class Auth with ChangeNotifier {
 
   Future<void> signup(email, password) async {
     final url = Uri.parse(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDa7QImjSYafqkzLS8Sc_5SGetPo-eOZTA',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCIwx_o-w7t9VxgEIwOz06rDmbxFF3UW14',
     );
 
     try {
@@ -50,7 +50,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(email, password) async {
     final url = Uri.parse(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyDa7QImjSYafqkzLS8Sc_5SGetPo-eOZTA',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCIwx_o-w7t9VxgEIwOz06rDmbxFF3UW14',
     );
 
     try {
