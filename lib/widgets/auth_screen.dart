@@ -94,7 +94,7 @@ class _AuthState extends State<AuthScreen> {
       const errorMessage = 'Could not authenticate you. Please try again later';
       _showErrorDialog(errorMessage);
     }
-    Navigator.of(context).pushReplacementNamed(MyHomePage.routeName);
+    // Navigator.of(context).pushReplacementNamed(MyHomePage.routeName);
 
     setState(() {
       _isLoading = false;

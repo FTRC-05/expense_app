@@ -54,12 +54,12 @@ class Product with ChangeNotifier {
     }
   }
 
-  Future<void> fetchTransactions([bool filterByUser = false]) async {
+  Future<void> fetchTransactions([bool filterByUser = true]) async {
 
     final filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
 
     final url = Uri.parse(
-      'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction.json?$filterString',
+      'https://class-expense-app-9b352-default-rtdb.firebaseio.com/transaction.json?auth=$authToken$filterString',
     );
     try {
       final response = await http.get(url);

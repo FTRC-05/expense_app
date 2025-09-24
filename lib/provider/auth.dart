@@ -50,7 +50,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(email, password) async {
     final url = Uri.parse(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCIwx_o-w7t9VxgEIwOz06rDmbxFF3UW14',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCIwx_o-w7t9VxgEIwOz06rDmbxFF3UW14',
     );
 
     try {
@@ -80,11 +80,23 @@ class Auth with ChangeNotifier {
       );
 
       prefs.setString('userData', userData);
+      print(userData);
+      print(_userId);
       if (request.statusCode != 200) {
         throw HttpException(response['error']['message']);
       }
     } catch (e) {
       throw e;
     }
+  }
+  void logout(){
+    _token =null;
+    _userId = null;
+    _expiryDate = null;
+    // if(_authTimer != null){
+    //   _authTimer!.cancel();
+    //   _authTimer = null;
+    // }
+    notifyListeners();
   }
 }
