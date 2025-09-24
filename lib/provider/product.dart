@@ -54,7 +54,7 @@ class Product with ChangeNotifier {
     }
   }
 
-  Future<void> fetchTransactions(bool filterByUser = false) async {
+  Future<void> fetchTransactions([bool filterByUser = false]) async {
 
     final filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
 
