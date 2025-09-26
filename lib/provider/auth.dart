@@ -69,7 +69,7 @@ class Auth with ChangeNotifier {
       _expiryDate = DateTime.now()
           .add(Duration(seconds: int.parse(response['expiresIn'])));
       notifyListeners();
-      // _autoLogout();
+      autoLogout();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
@@ -89,14 +89,47 @@ class Auth with ChangeNotifier {
       throw e;
     }
   }
-  void logout(){
+ Future <void> logout() async {
     _token =null;
     _userId = null;
     _expiryDate = null;
-    // if(_authTimer != null){
-    //   _authTimer!.cancel();
-    //   _authTimer = null;
-    // }
+    if(_authTimer != null){
+      _authTimer!.cancel();
+      _authTimer = null;
+    }
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  void autoLogout(){
+    if(_authTimer != null){
+      _authTimer!.cancel();
+    }
+    // final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
+    final expiryTime = _expiryDate!.difference(DateTime.now()).inSeconds;
+
+    _authTimer = Timer(Duration(seconds: expiryTime), logout);
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.containsKey('userData');
+    if(!prefs.containsKey('userData')){
+      return false;
+    }
+    final extractedData = json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
+    final expiryDate = DateTime.parse(extractedData['expiryDate']);
+
+    if(expiryDate.isBefore(DateTime.now())){
+      return false;
+    }
+
+    _token = extractedData['token'];
+    _userId = extractedData['userId'];
+    _expiryDate = expiryDate;
+    notifyListeners();
+    autoLogout();
+    return true;
   }
 }

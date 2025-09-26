@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            home: auth.isAuth ? MyHomePage() : AuthScreen(),
+            home: auth.isAuth ? MyHomePage() : FutureBuilder(future: auth.tryAutoLogin(), builder: (ctx, authSnapshot)=> authSnapshot.connectionState == ConnectionState.waiting ? CircularProgressIndicator(): AuthScreen()),
             routes: {MyHomePage.routeName: (ctx) => MyHomePage()},
           );
         },
